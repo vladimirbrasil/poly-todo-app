@@ -34,17 +34,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
+
       #drawerToolbar {
         color: var(--secondary-text-color);
         background-color: var(--drawer-menu-color);
       }
+
       paper-menu iron-icon {
         margin-right: 33px;
         opacity: 0.54;
       }
+
       .paper-menu > .iron-selected {
         color: var(--default-primary-color);
       }
+
       paper-menu a {
         text-decoration: none;
         color: var(--menu-link-color);
@@ -65,34 +69,42 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         min-height: 48px;
         padding: 0 16px;
       }
+
       #mainToolbar .middle-container {
         height: 100%;
         margin-left: 48px;
       }
+
       #mainToolbar:not(.tall) .middle {
         font-size: 18px;
         padding-bottom: 0;
       }
+
       .app-name {
         font-family: 'Roboto Slab', 'Roboto', 'Helvetica', 'Arial', sans-serif;
         font-weight: bold;
       }
+
       .clear-btn:hover,
       .clear-btn:focus {
         background-color: var(--text-primary-color);
         color: var(--default-primary-color);
       }
+
       /* Height of the scroll area */
       .content {
         height: 900px;
         padding: 64px 16px 0;
       }
+
       todo-list {
         margin: 0 auto 32px;
       }
+
       todo-list, todo-input {
         max-width: 1000px;
       }
+
       todo-input {
         margin: 0 auto;
       }
@@ -105,19 +117,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-toolbar id="drawerToolbar"></paper-toolbar>
 
         <!-- Drawer Content -->
-        <paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
+        <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}">
           <!-- Give anchors a tabindex to work around https://github.com/PolymerElements/iron-menu-behavior/issues/19 -->
-          <a data-route="all" href="/" tabindex="-1" on-click="closeDrawer">
+          <a data-route="all" href="/#!" tabindex="-1" on-click="closeDrawer">
             <iron-icon icon="todo-icons:assignment"></iron-icon>
             <span>All Todos</span>
           </a>
 
-          <a data-route="active" href="/active" tabindex="-1" on-click="closeDrawer">
+          <a data-route="active" href="/#!/active" tabindex="-1" on-click="closeDrawer">
             <iron-icon icon="todo-icons:assignment-late"></iron-icon>
             <span>Active</span>
           </a>
 
-          <a data-route="completed" href="/completed" tabindex="-1" on-click="closeDrawer">
+          <a data-route="completed" href="/#!/completed" tabindex="-1" on-click="closeDrawer">
             <iron-icon icon="todo-icons:assignment-turned-in"></iron-icon>
             <span>Completed</span>
           </a>
@@ -165,20 +177,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
   <script>
     Polymer({
+
       is: 'todo-view',
+
       properties: {
+
         route: String,
+
         todos: Array
+
       },
+
       addTodo: function(e) {
         this.push('todos', {
           label: e.detail.value,
           isComplete: false
         });
       },
+
       deleteTodo: function(e) {
         this.arrayDelete('todos', e.detail.todo);
       },
+
       clearTodos: function() {
         for (var i = 0; i < this.todos.length; i++) {
           var todo = this.todos[i];
@@ -187,6 +207,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         }
       },
+
       // Close drawer after menu item is selected if drawerPanel is narrow
       closeDrawer: function() {
         var drawerPanel = this.$.paperDrawerPanel;

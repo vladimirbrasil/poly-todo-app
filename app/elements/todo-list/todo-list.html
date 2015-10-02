@@ -1,4 +1,4 @@
-  <!--
+<!--
 @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -8,28 +8,89 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../todo-item/todo-item.html">
 
 <dom-module id="todo-list">
-  <style>
-    :host {
-      display: block;
-    }
-  </style>
+
   <template>
+
+    <style>
+      :host {
+        display: block;
+      }
+
+      .no-more-msg {
+        min-height: 40px;
+        font-family: 'Roboto Slab';
+        font-size: 20px;
+        color: #BDBDBD;
+        cursor: default;
+        padding-left: 67px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      todo-item:first-of-type {
+        margin-top: 0;
+      }
+
+      todo-item {
+        margin: 16px 0;
+      }
+    </style>
+
+    <p class="no-more-msg" hidden="[[_todosEmpty(todos.length)]]">No more todos! You're all caught up</p>
+
     <template is="dom-repeat"
               items="{{todos}}"
-              as="todo">
+              as="todo"
+              filter="{{_computeFilter(filterBy)}}"
+              observe="isComplete">
       <todo-item todo="{{todo}}"></todo-item>
     </template>
+
   </template>
   <script>
     Polymer({
+
       is: 'todo-list',
+
       properties: {
-        todos: Array
+
+        todos: Array,
+
+        filterBy: {
+          type: String,
+          value: 'all'
+        }
+
+      },
+
+      _todosEmpty: function(length) {
+        return !!length;
+      },
+
+      _computeFilter: function(filterBy) {
+        if (filterBy) {
+
+          // If filterBy is 'all', return a filter that always returns
+          // the todo
+          if (filterBy === 'all') {
+            return function(item) {
+              return item;
+            };
+          }
+
+          // Handle 'completed', or its inverse, 'active'
+          var ifComplete = (filterBy === 'completed');
+          return function(item) {
+            return item.isComplete === ifComplete;
+          };
+        }
       }
+
     });
   </script>
 </dom-module>
